@@ -1,13 +1,13 @@
-import type { Article, User } from './types'
+import { useArticles } from './ArticlesContext.tsx'
+import type { User } from './types'
 
 interface DashboardProps {
   user: User
-  articles: Article[]
-  loading: boolean
-  error: string | null
 }
 
-function Dashboard({ user, articles, loading, error }: DashboardProps) {
+function Dashboard({ user }: DashboardProps) {
+
+  const { articles, loading, error } = useArticles()
 
   if (loading) {
     return <p className="status-message">Loading dashboard…</p>

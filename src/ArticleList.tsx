@@ -1,15 +1,9 @@
-import type { Article } from './types'
+import { useArticles } from './ArticlesContext.tsx'
 import ArticleCard from './ArticleCard.tsx'
 
-interface ArticleListProps {
-  articles: Article[]
-  loading: boolean
-  error: string | null
-  onLike: (id: number) => void
-  onFavourite: (id: number) => void
-}
+function ArticleList() {
 
-function ArticleList({ articles, loading, error, onLike, onFavourite }: ArticleListProps) {
+  const { articles, loading, error } = useArticles()
 
   if (loading) {
     return <p className="status-message">Loading articles…</p>
@@ -29,8 +23,6 @@ function ArticleList({ articles, loading, error, onLike, onFavourite }: ArticleL
         <ArticleCard
           key={article.id}
           article={article}
-          onLike={onLike}
-          onFavourite={onFavourite}
         />
       ))}
     </div>

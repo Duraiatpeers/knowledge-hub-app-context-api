@@ -1,16 +1,9 @@
 import { Link, useParams } from 'react-router-dom'
-import type { Article } from './types'
+import { useArticles } from './ArticlesContext.tsx'
 
-interface ArticleDetailProps {
-  articles: Article[]
-  loading: boolean
-  error: string | null
-  onLike: (id: number) => void
-  onFavourite: (id: number) => void
-}
-
-function ArticleDetail({ articles, loading, error, onLike, onFavourite }: ArticleDetailProps) {
+function ArticleDetail() {
   const { id } = useParams<'id'>()
+  const { articles, loading, error, likeArticle, toggleFavourite } = useArticles()
 
   if (loading) {
     return <p className="status-message">Loading article…</p>
@@ -21,6 +14,7 @@ function ArticleDetail({ articles, loading, error, onLike, onFavourite }: Articl
   }
 
 const article = id ? articles.find(a => String(a.id) === id) : undefined
+
   if (!article) {
     return (
       <p className="empty-state">
@@ -40,8 +34,8 @@ const article = id ? articles.find(a => String(a.id) === id) : undefined
         {article.isFavourite && <span className="badge">★ Favourite</span>}
 
         <div className="btn-row">
-          <button onClick={() => onLike(article.id)}>Like</button>
-          <button onClick={() => onFavourite(article.id)}>
+          <button onClick={() => likeArticle(article.id)}>Like</button>
+          <button onClick={() => toggleFavourite(article.id)}>
             {article.isFavourite ? 'Unfavourite' : 'Favourite'}
           </button>
         </div>
